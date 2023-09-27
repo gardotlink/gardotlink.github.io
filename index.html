@@ -1,0 +1,679 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>gar.link: cached onionsites on the web</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+	print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+	print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-interactiveBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="1335df5c-e603-4b62-bcf6-4abd2f05c14e" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">🧄</span></div><h1 class="page-title"><a href="http://gar.link">gar.link</a>: cached onionsites on the web</h1><p class="page-description"></p></header><div class="page-body"><h2 id="622449c7-f70b-4707-ba17-6fe26d1a58ec" class="">What is <a href="http://gar.link">gar.link</a>?</h2><p id="a988fb78-79d3-4494-b123-58925bf98002" class=""><a href="http://gar.link">gar.link</a> (pronounced gar-dot-link, not gar-lic) is a service that exposes <a href="https://support.torproject.org/glossary/onion-site/">Tor Onionsites</a> and <a href="https://support.torproject.org/glossary/onion-services/">Onion Services</a> to the public World Wide Web without access to the Tor Browser Bundle, similar to <a href="https://www.tor2web.org/">tor2web</a> and other Tor proxies.</p><p id="777bc44a-9b57-4bba-a33a-ed87dc3bacd1" class="">Do not attempt to slice <a href="http://gar.link">gar.link</a>’s internals, as it smells, <a href="https://support.torproject.org/about/why-is-it-called-tor/">similar to slicing open an onion</a>.</p><h2 id="0315908f-4905-46df-9535-1ab96360826f" class="">What sets <a href="http://gar.link">gar.link</a> apart from other Tor proxy services?</h2><p id="4666ee37-a263-4e97-859d-baf9ad1123c3" class="">Unlike other Tor proxies, <a href="http://gar.link">gar.link</a> can <strong>dynamically cache requests so that similar, repeated requests do not have to go through the Tor network for some time</strong>, and <strong>supports any Internet-based protocol that runs on TCP/IP</strong> (and not just HTTP).</p><p id="efc6e4b0-4d36-48a7-a3f8-52089d7e17ca" class="">We cache supported Onionsites and Onion Services on a CDN so that accessing content hosted from these Onion Services are considerably faster for end users.</p><p id="7eed183c-20b2-4cd0-99cb-70566e6b000d" class=""><a href="http://gar.link">gar.link</a> addresses also <strong>support being set as a </strong><strong><code>CNAME</code></strong><strong> record, so that you can link your own domain or subdomain to any Onion Service and serve any protocol over that linked domain</strong>.</p><p id="575e9278-36c0-4c8a-98a6-07805d698d86" class="">Example use cases:</p><ul id="c30a566e-6464-4e2f-af45-9d24d7740666" class="bulleted-list"><li style="list-style-type:disc">Securely access Onionsites from regions and organizations where Tor is censored</li></ul><ul id="44bd2723-15ff-43b0-b985-58eeceb3f01b" class="bulleted-list"><li style="list-style-type:disc">Access services like SecureDrop, the New York Times or the BBC without revealing your identity even when you temporarily do not have access to the Tor Browser Bundle</li></ul><ul id="ef7875b5-caaa-4d2e-9037-cfd823fe87d0" class="bulleted-list"><li style="list-style-type:disc">Host your own Git repository as a Tor Onionsite and allow contributors to push Git commits through the Web with zero additional setup</li></ul><ul id="9758493a-6dc9-453c-8461-5eee94ffdbaf" class="bulleted-list"><li style="list-style-type:disc">Host your own Mastodon instance as an Onionsite and make it accessible to non-Tor users</li></ul><ul id="e33d202c-35ac-4817-9048-4521299b479a" class="bulleted-list"><li style="list-style-type:disc">Access a remote server over Tor with SSH</li></ul><ul id="bc3a6a93-a13e-42e8-a8fd-6ecba0b8fd9c" class="bulleted-list"><li style="list-style-type:disc">And many, many more …</li></ul><p id="b43096b4-bb59-4d8e-b9a7-902d5fb881b0" class="">Similar with most other Tor to Web proxies, however, <strong>going through a Tor proxy still guarantees privacy of the website owner but not you, the client</strong>. Your ISP may snoop on your connection and inform relevant authorities that you are accessing <a href="http://gar.link">gar.link</a> services, or even which Onionsite you are trying to access through gar.link. In countries where such activities are illegal, you may be detained, jailed or face inhumane treatment.</p><p id="a19d9ebb-cd46-45d4-8014-ec4826113cbf" class=""><strong>You should have no expectation of privacy while accessing </strong><strong><a href="http://gar.link">gar.link</a></strong><strong> services.</strong> Should you have any concerns regarding your own privacy, safety or security, we highly recommend using the Tor Browser Bundle and accessing the Onionsite link directly instead.</p><h2 id="ec51da6f-8c54-4e70-96b8-41a9168d87e2" class="">How does <a href="http://gar.link">gar.link</a> work?</h2><p id="6526a914-becd-4445-9ec6-90edac91a99e" class="">Simply type <code>onionsite_link.gar.link</code> on your web browser (for Onionsite <code>onionsite_link.onion</code>), or add a <code>CNAME</code> record pointing to this address. Any protocol being served over TCP/IP should work, although we did not test every single protocol being served over <a href="http://gar.link">gar.link</a> services.</p><p id="255042de-32b5-4bce-acca-506ed0a01c0f" class="">Internally, we <a href="https://github.com/benjojo/six-onions">assign an IPv6 address for every supported Onionsite</a>, and relay every request coming through that IPv6 address to its underlying Onion Service address through the Tor network. For cached Onionsites, we serve our locally cached copy first, and update our local cache every 10 minutes from the origin Tor Onionsite.</p><h2 id="ec016668-d785-459b-8a43-98577fcab963" class="">Who is behind <a href="http://gar.link">gar.link</a>?</h2><p id="5f08f602-8b7d-48eb-a0ad-6a348479a71f" class="">We are a team of cryptography-oriented developers who prefer to stay anonymous.</p><p id="1ccea057-1a3d-4f63-bd0e-6323cf27567b" class="">Should you have any questions or concerns regarding our Services, please email us at <a href="mailto:team@gar.link">team@gar.link</a>.</p><h2 id="b3ad4c16-2e3d-487a-8267-7703abb88bdc" class="">How do you make money?</h2><p id="bf4fcdf6-f3d8-4e6e-90ee-6b8e023676fe" class="">We don’t! <a href="http://gar.link">gar.link</a> is public infrastructure, free for anyone to use.</p><p id="55b7217e-21eb-48d1-bd6e-d43fb2835e7d" class="">However we do ask for donations from our users to help us pay for server, CDN and other infrastructure costs. We accept donations in Bitcoin and Ethereum.</p><p id="a06f8e00-263d-45ad-b645-a36d83615efe" class="">[BITCOIN ADDRESS HERE]</p><h2 id="e8ffb2da-0d75-4de4-9106-90f8b220ab61" class="">What is your Privacy Policy?</h2><p id="4b1718d7-aab5-4e7b-9a6b-210c910dcdb6" class="">We do not store or log any information regarding you, the user, or the Onionsite. Period.</p><p id="0511e956-cb09-4873-b780-82d01fbf1164" class="">We also do not actively collect or produce statistics data from using our Services.</p><p id="22247c1c-69a4-4a00-9969-df459c998e80" class="">The <a href="http://gar.link">gar.link</a> domain, DNS records, and webhost service providers are subject to the laws of the Republic of Iceland, which has some of the strongest user privacy protections on Earth.</p><p id="4644f5d3-8bd1-4613-aecc-e79776b8502a" class="">This does not prevent your ISP, local governments, or malicious actors from attempting to log or monitor your traffic going through <a href="http://gar.link">gar.link</a>. Always exercise caution before interacting with our Services.</p><p id="a54d7a25-a8ba-4942-9bdf-d1f1897738db" class="">Should you not trust us with your data, consider directly accessing the Onionsite with the Tor Browser Bundle instead. That way you do not need to trust any party, as the Tor network ensures privacy of its users by default.</p><h2 id="23008c15-e42a-4bc0-9e23-c3e863ef0e2f" class="">How do you moderate content being served through gar.link?</h2><p id="022610ca-2155-4669-b7a0-1fb01d7cc618" class="">The Tor network preserves privacy for both its users and websites alike, which often means horrific, unfavorable or inhumane information — terrorism, illegal arms trades, drugs, pedophiles, and those alike. We do recognize that such information may be tunneled through our services and may cause harm for our users that do not engage in such activities. We also acknowledge that this is a consequence of having zero censorship on the Tor network, which is a feature we appreciate and have built this service for in the first place.</p><p id="f60b733c-4c98-4e9a-9ddb-acad7c7cfacd" class="">First, we do not cache every single Onionsite that is requested through <a href="http://gar.link">gar.link</a>, we only cache websites that we manually verify to not serve information that is considered illicit or inhumane. A full list will be released on our Git repository. If you would like your Onionsite to be whitelisted on the cached websites list, please leave a pull request.</p><p id="ff5c8d9d-c414-48b3-b978-a003120b9429" class="">We also reserve the right to block access to some Onionsites on our blacklist, of which we will not release due to concerns Onion addresses for illicit Onionsites might be shared <em>through</em> our blacklist. However, you can check whether a particular Onionsite is blacklisted by trying access for that Onionsite through <a href="http://gar.link">gar.link</a> yourself (we do not log who have attempted to access a blacklisted Onionsite under our Privacy Policy).</p><p id="dd912b03-db2e-402d-80f6-3e11125dd62f" class="">Our policy is to <em>only</em> blacklist Onionsites that would be considered illegal on every single jurisdiction on Earth. If there is more than one jurisdiction that allows activities on a particular Onionsite, we will never blacklist those Onionsites. This is a baseline ethics rule we have set to provide maximum freedom for our users and Onionsite operators while avoiding content that clearly would be classified as crimes against humanity.</p><p id="7172df5c-d653-4a77-bc27-75acd620cced" class="">As an additional safety measure, any content being served through <a href="http://gar.link">gar.link</a> is blocked from being indexed by search engines.</p><p id="bd336dde-e67e-4399-9c91-004816cde8af" class="">Should you have concerns regarding a particular Onionsite being proxied through <a href="http://gar.link">gar.link</a>, please do not hesitate to email us at <a href="mailto:team@gar.link">team@gar.link</a>.</p><p id="3e8b7b4b-19c4-4dd2-9402-5c88fba0d232" class="">
+</p></div></article></body></html>
